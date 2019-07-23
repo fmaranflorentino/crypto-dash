@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   api: {
     domain: 'api.blockcypher.com',
-    version: '/v1/'
+    version: '/v1/',
+    protocol: 'https://'
   }
 };
 

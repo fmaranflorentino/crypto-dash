@@ -1,28 +1,43 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { HttpMethods } from '../../helpers/http-methods';
 import { environment as env } from 'src/environments/environment';
+import { CacheService } from '../cache/cache.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService extends HttpMethods {
-  private basePath = `${env.api.domain}${env.api.version}`;
+  private basePath = `${env.api.protocol}${env.api.domain}${env.api.version}`;
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private cache: CacheService
   ) {
     super();
   }
 
-  public get<T>(url: string, option?: object): Observable<T> {
+  public get<T>(url: string, options?: object): Observable<T> {
+    const cache = this.getCache(url, options);
 
-    const request = this.http
-      .get<T>(`${this.basePath}${url}`, option);
+    if (cache) {
+      return of(cache);
+    } else {
+      const request = this.http
+        .get<T>(`${this.basePath}${url}`, options);
 
-    return request;
+      request.subscribe();
+
+      return request
+        .pipe(
+          map(
+            data => this.cacheMe<T>(url, data, options)
+          )
+        );
+    }
 
   }
 
@@ -60,5 +75,14 @@ export class ApiService extends HttpMethods {
 
     return request;
 
+  }
+
+  private cacheMe<T>(url: string, data: T, params?: object): T {
+    this.cache.setStorage(url, data, params);
+    return data;
+  }
+
+  private getCache(url: string, params?: object) {
+    return this.cache.getStorage(url, params);
   }
 }

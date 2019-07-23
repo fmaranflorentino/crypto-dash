@@ -1,0 +1,27 @@
+app-form-new-coin {
+  @extend %display-block;
+
+  .component-container,
+  .overlay-app {
+    @extend %position-fixed;
+    @extend %bottom0;
+  }
+
+  .component-container {
+    border: 1px solid red;
+    z-index: calc(#{$overlay-app-zindex} + 1);
+
+    width: 400px;
+    height: 200px;
+    left: calc(50% - 200px);
+  }
+
+  .overlay-app {
+    z-index: $overlay-app-zindex;
+
+    width: 100%;
+    height: 100%;
+    left: 0;
+    background: rgba(#000, 0.3);
+  }
+}
