@@ -6,4 +6,8 @@ import { Injectable } from '@angular/core';
 export class LoggerService {
 
   constructor() { }
+
+  logError(message: string, stack: string) {
+    console.log('Throw Error: ' + message);
+  }
 }
