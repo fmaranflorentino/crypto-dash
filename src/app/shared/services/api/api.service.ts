@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { HttpMethods } from '../../helpers/http-methods';
+import { environment as env } from 'src/environments/environment';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService extends HttpMethods {
-  private basePath = ``;
+  private basePath = `${env.api.domain}${env.api.version}`;
 
   constructor(
     private http: HttpClient
