@@ -1,0 +1,22 @@
+app-header {
+  header {
+    @extend %display-block;
+    width: 100%;
+    height: 60px;
+
+    nav {
+      ul {
+        li {
+            list-style: none;
+
+            display: inline;
+
+            a {
+                text-decoration: none;
+                color: #333;
+            }
+        }
+      }
+    }
+  }
+}
