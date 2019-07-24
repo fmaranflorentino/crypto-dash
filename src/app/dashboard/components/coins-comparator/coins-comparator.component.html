@@ -1,16 +1,16 @@
 <div class="card">
   <div class="card-body">
     <div class="row">
-      <div class="col-12">
-        Comparador de moedas
-      </div>
+      <h3>Comparador de moedas</h3>
 
       <div class="col-6">
         <span *ngIf="!coinsComparator[0]">
           Selecione uma moeda
         </span>
         <div *ngIf="coinsComparator[0]">
-          <span (click)="removeCoin(coinsComparator[0])">X</span>
+          <i class="material-icons" (click)="removeCoin(coinsComparator[0])">
+            remove
+          </i>
           <ul>
             <li>
               {{ coinsComparator[0]?.name }}
@@ -44,7 +44,9 @@
           Selecione uma moeda
         </span>
         <div *ngIf="coinsComparator[1]">
-          <span (click)="removeCoin(coinsComparator[1])">X</span>
+          <i class="material-icons" (click)="removeCoin(coinsComparator[1])">
+            remove
+          </i>
           <ul>
             <li>
               {{ coinsComparator[1]?.name }}

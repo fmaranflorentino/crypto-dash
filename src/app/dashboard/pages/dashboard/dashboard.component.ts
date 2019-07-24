@@ -5,6 +5,7 @@ import { FormNewCoinComponent } from '../../components/form-new-coin/form-new-co
 import { Coin } from 'src/app/shared/models/coin.interface';
 import { CoinsService } from 'src/app/shared/services/coins/coins.service';
 import { Subscription } from 'rxjs';
+import { SnackbarService } from 'src/app/shared/services/snackbar/snackbar.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,6 +21,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   constructor(
     private formNewTaskService: FormNewCoinService,
     private coins$: CoinsService,
+    private snackbarService: SnackbarService
   ) {
     this.coins$.setInitialState();
     this.getCoinsList();
@@ -87,17 +89,17 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   handleCompareCoin(coin: Coin) {
     if (this.coinsComparator.length > 0) {
-
-      const duplicate = this.coinsComparator.filter(c => c.name === coin.name);
+      let duplicate = [];
+      duplicate = this.coinsComparator.filter(c => c.name === coin.name);
 
       if (duplicate.length > 0) {
-        return;
+        this.snackbarService.show('Atenção!', 'Remova uma moeda para adicionar outra a comparação.');
       } else {
         this.coinsComparator.push(coin);
       }
 
     } else if (this.coinsComparator.length === 2) {
-      return;
+      this.snackbarService.show('Atenção!', 'Remova uma moeda para adicionar outra a comparação.');
     } else {
       this.coinsComparator.push(coin);
     }

@@ -3,21 +3,14 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
-import { HeaderComponent } from './components/header/header.component';
-import { BaseComponent } from './components/base/base.component';
+import { sharedComponents } from './helpers/shared-components';
+import { applicationServices } from './helpers/app-services';
 
-import { DomService } from './services/dom/dom.service';
-import { ApiService } from './services/api/api.service';
-import { ErrorService } from './services/error/error.service';
-import { LoggerService } from './services/logger/logger.service';
-import { CoinsService } from './services/coins/coins.service';
-import { FormNewCoinService } from './services/form-new-coin/form-new-coin.service';
-import { CacheService } from './services/cache/cache.service';
-import { SnackbarComponent } from './components/snackbar/snackbar.component';
-import { SnackbarService } from './services/snackbar/snackbar.service';
 
 @NgModule({
-  declarations: [HeaderComponent, BaseComponent, SnackbarComponent],
+  declarations: [
+    ...sharedComponents
+  ],
   imports: [
     CommonModule,
     HttpClientModule,
@@ -25,14 +18,12 @@ import { SnackbarService } from './services/snackbar/snackbar.service';
     ReactiveFormsModule
   ],
   exports: [
-    BaseComponent,
-    HeaderComponent,
-    SnackbarComponent,
+    ...sharedComponents,
     HttpClientModule,
     ReactiveFormsModule
   ],
   entryComponents: [
-    SnackbarComponent
+    sharedComponents[2]
   ]
 })
 export class SharedModule {
@@ -40,14 +31,7 @@ export class SharedModule {
     return {
       ngModule: SharedModule,
       providers: [
-        DomService,
-        ApiService,
-        ErrorService,
-        LoggerService,
-        CoinsService,
-        FormNewCoinService,
-        CacheService,
-        SnackbarService
+        ...applicationServices
       ]
     };
   }

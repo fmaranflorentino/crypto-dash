@@ -1,6 +1,14 @@
 app-coins-comparator {
   .card {
+    display: block;
     height: 100%;
+
+    h3 {
+      text-align: center;
+      width: 100%;
+
+      margin: 0 0 35px 0;
+    }
   }
 
   ul {
