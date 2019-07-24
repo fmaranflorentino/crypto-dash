@@ -1,12 +1,18 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-12">
-      <div *ngIf="coinList.length">
-          <span *ngFor="let coin of coinList">
-              {{ coin.name }}
-          </span>
-        <!-- {{ coinList?[0].name }} -->
-      </div>
+    <div class="col-8">
+      <app-coin-list
+        (informCompareCoin)="handleCompareCoin($event)"
+        (removeCoin)="handleRemoveCoin($event)"
+        [coinList]="coinList"
+      ></app-coin-list>
+    </div>
+
+    <div class="col">
+      <app-coins-comparator
+        [coinsComparator]="coinsComparator"
+        (removeCoinFromComparator)="handleRemoveCoin($event, 'comparator')"
+      ></app-coins-comparator>
     </div>
   </div>
 </div>

@@ -13,9 +13,11 @@ import { LoggerService } from './services/logger/logger.service';
 import { CoinsService } from './services/coins/coins.service';
 import { FormNewCoinService } from './services/form-new-coin/form-new-coin.service';
 import { CacheService } from './services/cache/cache.service';
+import { SnackbarComponent } from './components/snackbar/snackbar.component';
+import { SnackbarService } from './services/snackbar/snackbar.service';
 
 @NgModule({
-  declarations: [HeaderComponent, BaseComponent],
+  declarations: [HeaderComponent, BaseComponent, SnackbarComponent],
   imports: [
     CommonModule,
     HttpClientModule,
@@ -25,8 +27,12 @@ import { CacheService } from './services/cache/cache.service';
   exports: [
     BaseComponent,
     HeaderComponent,
+    SnackbarComponent,
     HttpClientModule,
     ReactiveFormsModule
+  ],
+  entryComponents: [
+    SnackbarComponent
   ]
 })
 export class SharedModule {
@@ -40,7 +46,8 @@ export class SharedModule {
         LoggerService,
         CoinsService,
         FormNewCoinService,
-        CacheService
+        CacheService,
+        SnackbarService
       ]
     };
   }

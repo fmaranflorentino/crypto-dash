@@ -17,7 +17,7 @@ import { ServerErrorInterceptor } from './shared/helpers/server-error.intercepto
   imports: [
     BrowserModule,
     AppRoutingModule,
-    SharedModule
+    SharedModule.forRoot()
   ],
   providers: [
     { provide: ErrorHandler, useClass: ApplicationErrorHandler },

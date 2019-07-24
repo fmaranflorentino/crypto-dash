@@ -1,15 +1,15 @@
 <div class="component-container">
-  <p>form-new-coin works!</p>
   <h4>Adicione uma nova moeda</h4>
-  <!-- <form> -->
-  <div class="form-group">
-    <label for="newCoin">Selecione a moeda desejada</label>
-    <select class="form-control" id="newCoin">
-      <option *ngFor="let coin of coinAvailable" [innerHtml]="coin.label">
-      </option>
-    </select>
-  </div>
-  <!-- </form> -->
+  <form [formGroup]="formCoin">
+    <div class="form-group">
+      <select formControlName="coin" class="form-control" id="newCoin">
+        <option value="">Selecione a moeda desejada</option>
+        <option *ngFor="let coin of coinAvailable" [value]="coin.name" [innerHtml]="coin.label">
+        </option>
+      </select>
+      <button class="btn btn-primary" (click)="handleNewCoin()" [disabled]="formCoin.invalid">Selecionar</button>
+    </div>
+  </form>
 </div>
 
 <div class="overlay-app" (click)="removeFormNewCoin()"></div>

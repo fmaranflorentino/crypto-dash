@@ -1,3 +1,18 @@
+app-dashboard {
+
+  .container-fluid,
+  .row {
+    height: 100%;
+  }
+
+  app-coin-list {
+
+    app-coin-card {
+        @extend %display-block;
+        margin: 0 0 20px 0;
+    }
+  }
+}
 // app-dashboard {
 //   .container {
 //     height: 100%;
@@ -74,7 +89,6 @@
 //         display: block;
 //         width: 100%;
 //       }
-
 
 //       .message-detail {
 //         margin: 0 0 20px 0;

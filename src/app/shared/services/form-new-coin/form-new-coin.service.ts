@@ -1,16 +1,18 @@
 import { Injectable, ComponentRef } from '@angular/core';
 import { DomService } from '../dom/dom.service';
-import { FormNewCoinComponent } from 'src/app/dashboard/components/form-new-coin/form-new-coin.component';
+import { ComponentBehavior } from '../../helpers/component-behavior';
 
 @Injectable({
   providedIn: 'root'
 })
-export class FormNewCoinService {
+export class FormNewCoinService extends ComponentBehavior {
   formNewCoin: ComponentRef<any>;
 
   constructor(
     private domService: DomService
-  ) { }
+  ) {
+    super();
+  }
 
   show(component) {
     this.formNewCoin = this.domService

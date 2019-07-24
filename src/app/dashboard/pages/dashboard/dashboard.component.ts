@@ -1,44 +1,65 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 
 import { FormNewCoinService } from 'src/app/shared/services/form-new-coin/form-new-coin.service';
 import { FormNewCoinComponent } from '../../components/form-new-coin/form-new-coin.component';
 import { Coin } from 'src/app/shared/models/coin.interface';
 import { CoinsService } from 'src/app/shared/services/coins/coins.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, AfterViewInit {
   coinList: Coin[] = [];
   defaultCoin: Coin;
+  coinsComparator: Coin[] = [];
+  coinListSub: Subscription;
 
   constructor(
     private formNewTaskService: FormNewCoinService,
-    private coins$: CoinsService
-  ) { }
+    private coins$: CoinsService,
+  ) {
+    this.coins$.setInitialState();
+    this.getCoinsList();
+  }
 
-  async ngOnInit() {
-    const cache = localStorage.getItem('bosta');
-    const stg = JSON.parse(cache);
+  ngOnInit() {
 
-    if (stg) {
-      this.coinList = stg;
-    } else {
-      this.defaultCoin = await this.getDefaultCoin();
+  }
 
-      this.handleDefaultCoin(this.defaultCoin);
+  async ngAfterViewInit() {
+
+    try {
+      await this.getCoinsList();
+
+    } catch (error) {
+      console.log(error);
     }
 
   }
 
-  handleDefaultCoin(coin: Coin): void {
-    this.coinList.push(coin);
-    const data = this.coinList;
-    const key = 'bosta';
+  getCoinsList() {
+    return new Promise<any>(async (resolve, reject) => {
+      await this.coins$.setInitialState();
 
-    localStorage.setItem('bosta', JSON.stringify(data));
+      this.coinListSub = this.coins$.getCoinList()
+        .subscribe(
+          async resp => {
+            this.coinList = resp;
+            if (resp.length === 0) {
+              await this.setDefaultCoinList();
+            }
+            resolve();
+          },
+
+          error => {
+            reject(error);
+          }
+        );
+
+    });
 
   }
 
@@ -46,12 +67,50 @@ export class DashboardComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.coins$
         .getDefaultCoin('btc', 'main')
-        .subscribe(resp => resolve(resp));
+        .subscribe(resp => {
+          resolve(resp);
+        });
     });
+  }
+
+  async setDefaultCoinList() {
+    const list = await this.getDefaultCoin();
+    this.coinList = new Array(list);
+
+    localStorage.setItem('coinList', JSON.stringify(this.coinList));
+
   }
 
   openFormNewCoinComponent(): void {
     this.formNewTaskService.show(FormNewCoinComponent);
+  }
+
+  handleCompareCoin(coin: Coin) {
+    if (this.coinsComparator.length > 0) {
+
+      const duplicate = this.coinsComparator.filter(c => c.name === coin.name);
+
+      if (duplicate.length > 0) {
+        return;
+      } else {
+        this.coinsComparator.push(coin);
+      }
+
+    } else if (this.coinsComparator.length === 2) {
+      return;
+    } else {
+      this.coinsComparator.push(coin);
+    }
+  }
+
+  handleRemoveCoin(coin, type?) {
+    if (type) {
+      this.coinsComparator = this.coinsComparator.filter(c => c !== coin);
+    } else {
+      this.coinList = this.coinList.filter(c => c !== coin);
+
+      localStorage.setItem('coinList', JSON.stringify(this.coinList));
+    }
   }
 
 }

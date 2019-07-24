@@ -1,0 +1,77 @@
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-12">
+        Comparador de moedas
+      </div>
+
+      <div class="col-6">
+        <span *ngIf="!coinsComparator[0]">
+          Selecione uma moeda
+        </span>
+        <div *ngIf="coinsComparator[0]">
+          <span (click)="removeCoin(coinsComparator[0])">X</span>
+          <ul>
+            <li>
+              {{ coinsComparator[0]?.name }}
+            </li>
+            <li
+              [ngClass]="
+                gethightFee(
+                  coinsComparator[0]?.high_fee_per_kb,
+                  coinsComparator[1]?.high_fee_per_kb
+                )
+              "
+            >
+              {{ coinsComparator[0]?.high_fee_per_kb }}
+            </li>
+            <li
+              [ngClass]="
+                gethightFee(
+                  coinsComparator[0]?.low_fee_per_kb,
+                  coinsComparator[1]?.low_fee_per_kb
+                )
+              "
+            >
+              {{ coinsComparator[0]?.low_fee_per_kb }}
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <span *ngIf="!coinsComparator[1]">
+          Selecione uma moeda
+        </span>
+        <div *ngIf="coinsComparator[1]">
+          <span (click)="removeCoin(coinsComparator[1])">X</span>
+          <ul>
+            <li>
+              {{ coinsComparator[1]?.name }}
+            </li>
+            <li
+              [ngClass]="
+                gethightFee(
+                  coinsComparator[1]?.high_fee_per_kb,
+                  coinsComparator[0]?.high_fee_per_kb
+                )
+              "
+            >
+              {{ coinsComparator[1]?.high_fee_per_kb }}
+            </li>
+            <li
+              [ngClass]="
+                gethightFee(
+                  coinsComparator[1]?.low_fee_per_kb,
+                  coinsComparator[0]?.low_fee_per_kb
+                )
+              "
+            >
+              {{ coinsComparator[1]?.low_fee_per_kb }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

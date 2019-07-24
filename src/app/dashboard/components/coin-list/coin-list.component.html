@@ -1,1 +1,7 @@
-<p>coin-list works!</p>
+<div class="row">
+  <ng-container *ngIf="coinList?.length">
+    <div class="col-6" *ngFor="let coin of coinList">
+      <app-coin-card (removeCoin)="handleRemoveCoin($event)" (informCompareCoin)="handleCompareCoin($event)" [coin]="coin"></app-coin-card>
+    </div>
+  </ng-container>
+</div>

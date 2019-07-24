@@ -8,20 +8,51 @@ app-form-new-coin {
   }
 
   .component-container {
-    border: 1px solid red;
+    background: #fff;
+    border-radius: 8px 8px 0 0;
     z-index: calc(#{$overlay-app-zindex} + 1);
 
+    animation: slideUp 0.5s;
+
     width: 400px;
-    height: 200px;
+    height: auto;
     left: calc(50% - 200px);
+
+    padding: 20px;
+
+    select {
+      margin: 20px 0;
+    }
   }
 
   .overlay-app {
     z-index: $overlay-app-zindex;
 
+    animation: slideUp 0.1s;
+
     width: 100%;
     height: 100%;
     left: 0;
     background: rgba(#000, 0.3);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    ransform: translateY(100px);
+    opacity: 1;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
