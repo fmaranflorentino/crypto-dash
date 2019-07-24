@@ -1,22 +1,33 @@
 app-snackbar {
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 1px 1px 2px rgba(#000, 0.4);
-    z-index: 40;
+  animation: fade 0.5s;
 
-    position: absolute;
-    bottom: 50px;
-    left: 25px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 1px 1px 2px rgba(#000, 0.4);
+  z-index: 40;
 
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
+  position: absolute;
+  bottom: 50px;
+  left: 25px;
 
-    width: 400px;
-    height: 100px;
-    padding: 20px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 
-    p {
-        margin: 0;
-    }
+  width: 400px;
+  height: 100px;
+  padding: 20px;
+
+  p {
+    margin: 0;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

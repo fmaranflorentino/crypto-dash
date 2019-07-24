@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-8">
+    <div class="col-12 col-md-8">
       <app-coin-list
         (informCompareCoin)="handleCompareCoin($event)"
         (removeCoin)="handleRemoveCoin($event)"
@@ -8,7 +8,7 @@
       ></app-coin-list>
     </div>
 
-    <div class="col">
+    <div class="col-12 col-md">
       <app-coins-comparator
         [coinsComparator]="coinsComparator"
         (removeCoinFromComparator)="handleRemoveCoin($event, 'comparator')"

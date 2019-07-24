@@ -23,7 +23,7 @@ export class SnackbarService extends ComponentBehavior {
 
     setTimeout(() => {
       this.hide();
-    }, 3000);
+    }, 1500);
   }
 
   hide() {

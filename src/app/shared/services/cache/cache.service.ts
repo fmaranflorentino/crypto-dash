@@ -7,25 +7,15 @@ export class CacheService {
 
   constructor() { }
 
-  setStorage(key: string, value: any, params?: any) {
-    const now = new Date();
-    const expireIn = new Date(now);
-    expireIn.setMinutes(now.getMinutes() + 30);
-    localStorage.setItem(JSON.stringify({ key, params }), JSON.stringify({ value, params, expireIn }));
+  setStorage(key: string, value: any) {
+    localStorage.setItem(key, JSON.stringify(value));
   }
 
-  getStorage(key: string, params?: any) {
-    const now = new Date();
-    const storage = localStorage.getItem(JSON.stringify({ key, params }));
+  getStorage(key: string) {
+    const storage = localStorage.getItem(key);
     if (storage) {
       const cache = JSON.parse(storage);
-
-      if (new Date(cache.expireIn) < now) {
-        localStorage.removeItem(key);
-        return null;
-      } else {
-        return cache.value;
-      }
+      return cache;
     } else {
       return null;
     }

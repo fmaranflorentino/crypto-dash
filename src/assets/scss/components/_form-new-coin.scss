@@ -43,7 +43,7 @@ app-form-new-coin {
     opacity: 0;
   }
   to {
-    ransform: translateY(100px);
+    transform: translateY(100px);
     opacity: 1;
   }
 }
@@ -54,5 +54,14 @@ app-form-new-coin {
   }
   to {
     opacity: 1;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  app-form-new-coin {
+    .component-container {
+      width: 100%;
+      left: 0;
+    }
   }
 }

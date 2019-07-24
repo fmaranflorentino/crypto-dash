@@ -3,75 +3,118 @@
     <div class="row">
       <h3>Comparador de moedas</h3>
 
-      <div class="col-6">
-        <span *ngIf="!coinsComparator[0]">
-          Selecione uma moeda
-        </span>
-        <div *ngIf="coinsComparator[0]">
-          <i class="material-icons" (click)="removeCoin(coinsComparator[0])">
-            remove
-          </i>
+      <div class="col-12">
+        <div *ngIf="coinsComparator[0]?.name">
           <ul>
             <li>
-              {{ coinsComparator[0]?.name }}
+              <h4>
+                {{ getCoinaName(coinsComparator[0]?.name) }}
+              </h4>
             </li>
-            <li
-              [ngClass]="
-                gethightFee(
-                  coinsComparator[0]?.high_fee_per_kb,
-                  coinsComparator[1]?.high_fee_per_kb
-                )
-              "
-            >
-              {{ coinsComparator[0]?.high_fee_per_kb }}
+            <li>
+              satoshis por kilobyte (1 e 2 blocos):
+              <span
+                [ngClass]="
+                  gethightFee(
+                    coinsComparator[0]?.high_fee_per_kb,
+                    coinsComparator[1]?.high_fee_per_kb
+                  )
+                "
+              >
+                {{ coinsComparator[0]?.high_fee_per_kb }}
+              </span>
             </li>
-            <li
-              [ngClass]="
-                gethightFee(
-                  coinsComparator[0]?.low_fee_per_kb,
-                  coinsComparator[1]?.low_fee_per_kb
-                )
-              "
-            >
-              {{ coinsComparator[0]?.low_fee_per_kb }}
+            <li>
+              satoshis por kilobyte (7 ou mais blocos):
+              <span
+                [ngClass]="
+                  gethightFee(
+                    coinsComparator[0]?.low_fee_per_kb,
+                    coinsComparator[1]?.low_fee_per_kb
+                  )
+                "
+              >
+                {{ coinsComparator[0]?.low_fee_per_kb }}
+              </span>
             </li>
           </ul>
+          <button
+            class="btn btn-danger"
+            (click)="removeCoin(coinsComparator[0])"
+          >
+            <i class="material-icons">
+              remove
+            </i>
+            <span>
+              Remover
+            </span>
+          </button>
         </div>
       </div>
 
-      <div class="col-6">
-        <span *ngIf="!coinsComparator[1]">
-          Selecione uma moeda
-        </span>
-        <div *ngIf="coinsComparator[1]">
-          <i class="material-icons" (click)="removeCoin(coinsComparator[1])">
-            remove
-          </i>
+      <div class="col-12">
+        <div *ngIf="coinsComparator[1]?.name">
           <ul>
             <li>
-              {{ coinsComparator[1]?.name }}
+              <h4>
+                {{ getCoinaName(coinsComparator[1]?.name) }}
+              </h4>
             </li>
-            <li
-              [ngClass]="
-                gethightFee(
-                  coinsComparator[1]?.high_fee_per_kb,
-                  coinsComparator[0]?.high_fee_per_kb
-                )
-              "
-            >
-              {{ coinsComparator[1]?.high_fee_per_kb }}
+            <li>
+              satoshis por kilobyte (1 e 2 blocos):
+              <span
+                [ngClass]="
+                  gethightFee(
+                    coinsComparator[1]?.high_fee_per_kb,
+                    coinsComparator[0]?.high_fee_per_kb
+                  )
+                "
+              >
+                {{ coinsComparator[1]?.high_fee_per_kb }}
+              </span>
             </li>
-            <li
-              [ngClass]="
-                gethightFee(
-                  coinsComparator[1]?.low_fee_per_kb,
-                  coinsComparator[0]?.low_fee_per_kb
-                )
-              "
-            >
-              {{ coinsComparator[1]?.low_fee_per_kb }}
+            <li>
+              satoshis por kilobyte (7 ou mais blocos):
+              <span
+                [ngClass]="
+                  gethightFee(
+                    coinsComparator[1]?.low_fee_per_kb,
+                    coinsComparator[0]?.low_fee_per_kb
+                  )
+                "
+              >
+                {{ coinsComparator[1]?.low_fee_per_kb }}
+              </span>
             </li>
           </ul>
+          <button
+            class="btn btn-danger"
+            (click)="removeCoin(coinsComparator[1])"
+          >
+            <i class="material-icons">
+              remove
+            </i>
+            <span>
+              Remover
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div
+          class="no-selection"
+          *ngIf="!coinsComparator[0]?.name || !coinsComparator[1]?.name"
+        >
+          <i class="material-icons">
+            money
+          </i>
+          <span *ngIf="!coinsComparator[0]?.name && !coinsComparator[1]?.name">
+            Selecione uma moeda
+          </span>
+          <span *ngIf="coinsComparator[0]?.name && !coinsComparator[1]?.name">
+            Selecione outra moeda
+          </span>
         </div>
       </div>
     </div>

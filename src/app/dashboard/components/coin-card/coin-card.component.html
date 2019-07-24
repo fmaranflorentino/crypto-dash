@@ -5,14 +5,14 @@
       <li>
         <small> Última atualização: {{ dateFormated(coin?.time) }} </small>
       </li>
-      <li>{{ coin?.high_fee_per_kb }}</li>
-      <li>{{ coin?.low_fee_per_kb }}</li>
     </ul>
     <button class="btn btn-primary" (click)="compareCoin(coin)">
       <i class="material-icons">
         compare_arrows
       </i>
-      Comparar Moeda
+      <span>
+        Comparar Moeda
+      </span>
     </button>
     <button class="btn btn-danger" (click)="remove(coin)">
       <i class="material-icons">

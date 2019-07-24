@@ -5,6 +5,7 @@ import { CoinsService } from 'src/app/shared/services/coins/coins.service';
 import { Coin } from 'src/app/shared/models/coin.interface';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { SnackbarService } from 'src/app/shared/services/snackbar/snackbar.service';
+import { ApiService } from 'src/app/shared/services';
 
 @Component({
   selector: 'app-form-new-coin',
@@ -43,7 +44,8 @@ export class FormNewCoinComponent implements OnInit {
   constructor(
     private formNewCoin: FormNewCoinService,
     private coin$: CoinsService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private api$: ApiService
   ) { }
 
   ngOnInit() {
@@ -63,15 +65,13 @@ export class FormNewCoinComponent implements OnInit {
   async handleNewCoin() {
     try {
       const isDuplicatedCoin = await this.addNewCoinToList();
+      const cache = this.api$.getCache('coinList');
 
       if (isDuplicatedCoin) {
-        const cache = JSON.parse(localStorage.getItem('coinList'));
-
         if (cache) {
           cache.push(isDuplicatedCoin);
         }
 
-        localStorage.setItem('coinList', JSON.stringify(cache));
       }
 
     } catch (error) {
@@ -79,29 +79,37 @@ export class FormNewCoinComponent implements OnInit {
     }
   }
 
-  addNewCoinToList() {
-    return new Promise((resolve, reject) => {
-      const cache = JSON.parse(localStorage.getItem('coinList'));
+  addNewCoinToList(): Promise<Coin> {
+    return new Promise(async (resolve, reject) => {
+
+      const cache = this.api$.getCache('coinList');
       const hasDuplicate = cache.filter(c => c.name === this.formCoin.controls.coin.value);
 
       if (hasDuplicate.length > 0) {
         this.snackbarService.show('Atenção!', 'Essa moeda já esta selecionada.');
         reject();
       } else {
-        const [coin] = this.coinAvailable.filter(cc => cc.name === this.formCoin.controls.coin.value);
-
-        this.coin$.getSelectedCoin(coin.value, coin.chain)
-          .subscribe(resp => {
-            const body = [...cache];
-            body.push(resp);
-
-            this.coin$.setCoinList(body);
-            this.snackbarService.show('Sucesso', 'Inclusão concluída com sucesso.');
-            this.formNewCoin.hide();
-            resolve(resp);
-          });
+        await this.addNewCoin(cache);
+        resolve();
       }
 
+    });
+  }
+
+  addNewCoin(cache: Coin[]) {
+    return new Promise(async (resolve, reject) => {
+      const [coin] = this.coinAvailable.filter(cc => cc.name === this.formCoin.controls.coin.value);
+      await this.coin$.getSelectedCoin(coin.value, coin.chain)
+        .subscribe(resp => {
+          const body = [...cache];
+          body.push(resp);
+
+          this.coin$.setCoinList(body);
+          this.api$.cacheMe('coinList', body);
+          this.snackbarService.show('Sucesso', 'Inclusão concluída com sucesso.');
+          this.removeFormNewCoin();
+          resolve();
+        });
     });
   }
 

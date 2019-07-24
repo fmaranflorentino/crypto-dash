@@ -31,4 +31,29 @@ export class CoinsComparatorComponent implements OnInit {
     this.removeCoinFromComparator.emit(coin);
   }
 
+  getCoinaName(coin: string) {
+    if (coin) {
+      const name = coin.split('.');
+
+      return this.translateName(name[0]);
+    } else {
+      return '';
+    }
+  }
+
+  translateName(name: string) {
+    switch (name) {
+      case 'BTC':
+        return 'Bitcoin';
+      case 'DOGE':
+        return 'Dogecoin';
+      case 'LTC':
+        return 'Litecoin';
+      case 'BCY':
+        return 'BlockCypher';
+      default:
+        return 'Bitcoin';
+    }
+  }
+
 }

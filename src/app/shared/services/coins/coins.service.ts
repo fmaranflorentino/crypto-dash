@@ -9,7 +9,7 @@ import { Coin } from '../../models/coin.interface';
 })
 export class CoinsService {
   private coinList = [];
-  private coinListUptodate: Subject<any> = new Subject();
+  private coinListUptodate: Subject<Coin[] | []> = new Subject();
 
   constructor(
     private api$: ApiService
@@ -17,10 +17,9 @@ export class CoinsService {
     this.setInitialState();
   }
 
-  async setInitialState() {
+  async setInitialState(): Promise<Coin[]> {
     return new Promise(async (resolve, reject) => {
-      const cache = JSON.parse(localStorage.getItem('coinList'));
-
+      const cache = this.api$.getCache('coinList');
       if (cache) {
         this.coinList = cache;
         await this.coinListUptodate.next(this.coinList);
@@ -34,7 +33,7 @@ export class CoinsService {
 
   }
 
-  getDefaultCoin(value, chain) {
+  getDefaultCoin(value, chain): Observable<Coin> {
     return this.getSelectedCoin(value, chain);
   }
 
@@ -44,11 +43,11 @@ export class CoinsService {
     return this.api$.get<Coin>(url);
   }
 
-  getCoinList(): Observable<any> {
+  getCoinList(): Observable<Coin[]> {
     return this.coinListUptodate.asObservable();
   }
 
-  setCoinList(coinList) {
+  setCoinList(coinList): void {
     this.coinListUptodate.next(coinList);
   }
 }
